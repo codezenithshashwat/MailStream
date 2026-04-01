@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MailStream Engine</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0 20px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        #statusMessage { margin-top: 15px; font-weight: bold; color: #0056b3; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🚀 Create Notification Campaign</h2>
+    <form id="campaignForm">
+        <label>Campaign Subject:</label>
+        <input type="text" id="subject" placeholder="e.g., Massive Spring Sale!" required>
+
+        <label>Email Content:</label>
+        <textarea id="bodyContent" rows="6" placeholder="Write your email here..." required></textarea>
+
+        <button type="submit" id="sendBtn">Queue Campaign</button>
+    </form>
+    <p id="statusMessage"></p>
+</div>
+
+<script>
+    document.getElementById('campaignForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Stop the page from reloading
+
+        const subject = document.getElementById('subject').value;
+        const bodyContent = document.getElementById('bodyContent').value;
+        const statusText = document.getElementById('statusMessage');
+        const btn = document.getElementById('sendBtn');
+
+        statusText.innerText = "Saving to database...";
+        btn.disabled = true;
+        btn.style.backgroundColor = "#6c757d";
+
+        try {
+            // Send the POST request to our Spring Boot Controller
+            const response = await fetch('/api/campaigns', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subject: subject, bodyContent: bodyContent })
+            });
+
+            const result = await response.text();
+            statusText.innerText = result; // Show the success message from Java
+            statusText.style.color = "#28a745";
+        } catch (error) {
+            statusText.innerText = "Error connecting to server.";
+            statusText.style.color = "#dc3545";
+        } finally {
+            btn.disabled = false;
+            btn.style.backgroundColor = "#28a745";
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -18,10 +18,10 @@
     <h2>🚀 Create Notification Campaign</h2>
     <form id="campaignForm">
         <label>Campaign Subject:</label>
-        <input type="text" id="subject" placeholder="e.g., Massive Spring Sale!" required>
+        <input type="text" id="subject" placeholder="Subject" required>
 
         <label>Email Content:</label>
-        <textarea id="bodyContent" rows="6" placeholder="Write your email here..." required></textarea>
+        <textarea id="bodyContent" rows="6" placeholder="Write the content of your email" required></textarea>
 
         <button type="submit" id="sendBtn">Queue Campaign</button>
     </form>
@@ -29,7 +29,7 @@
 </div>
 
 <script>
-    document.getElementById('campaignForm').addEventListener('submit', async (e) => {
+    document.getElementById('campaignForm').addEventListener('submit', async (e) => { // by default this method is called when user submits the form
         e.preventDefault(); // Stop the page from reloading
 
         const subject = document.getElementById('subject').value;
@@ -42,7 +42,8 @@
         btn.style.backgroundColor = "#6c757d";
 
         try {
-            // Send the POST request to our Spring Boot Controller
+            //send the POST request to our Spring Boot Controller
+            //connecting frontend with the backeend
             const response = await fetch('/api/campaigns', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

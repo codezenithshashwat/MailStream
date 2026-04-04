@@ -26,9 +26,9 @@ public class CampaignController {
     public ResponseEntity<String> createCampaign(@RequestBody Campaign campaign){ // response entity here represents the entire HTTP response (status codes, header, body...standard REST practice)
 //        campaignRepository.save(campaign);
 
-        Campaign savedCampaign= campaignRepository.save(campaign);
+        Campaign savedCampaign= campaignRepository.save(campaign); //saving the campaign in the database
 
-        //publishing the event to kafka
+        //publishing the event to kafka instantly as campaign is created
         kafkaProducerService.sendCampaignEvent(savedCampaign.getId().toString());
 
         return ResponseEntity.accepted().body("Campaign created successfully: ID of the campaign is: "+ campaign.getId());

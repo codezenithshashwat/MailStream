@@ -4,13 +4,11 @@ import com.example.mailstream.model.Campaign;
 import com.example.mailstream.repository.CampaignRepository;
 import com.example.mailstream.service.KafkaProducerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/campaigns")
+@CrossOrigin(origins = "http://localhost:4200") //for testing on apache jmeter
 public class CampaignController {
 
     private final CampaignRepository campaignRepository;
